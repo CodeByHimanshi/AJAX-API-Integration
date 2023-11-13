@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX API Integration</title>
+
+    <style>
+        body {
+            background-color: #444;
+        }
+
+        .card {
+            width: 300px;
+            height: 400px;
+            background: #fff;
+            margin: 0 auto;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 50px;
+            font-size: 17px;
+        }
+
+        .card-head {
+            text-align: center;
+        }
+
+        .card-head img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .card-footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            transform: translateY(50%);
+        }
+
+        .card-box {
+            text-align: center;
+        }
+
+        .card-box p{
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container"></div>
+
+    <script>
+        const container = document.querySelector('#container');
+
+        const request = new XMLHttpRequest();
+        request.open('GET', 'https://restcountries.com/v3.1/name/nepal');
+        request.send();
+
+        request.addEventListener('load', function () {
+            // console.log(this.responseText);
+
+            const [data] = JSON.parse(this.responseText);
+            console.log(data);
+
+            const htmlData = `
+            
+            <div class="card">
+                <div class="card-head">
+                    <img src="${data.flags.png}" alt="">
+
+                    <p><strong>Capital</strong>: <span>${data.capital}</span></p>
+                </div>
+                <div class="card-footer">
+                    <div class="card-box">
+                        <span>${data.languages.nep}</span>
+                        <p><strong>Native Language</strong></p>
+                    </div>
+                    <div class="card-box">
+                        <span>${data.population}</span>
+                        <p><strong>Population</strong></p>
+                    </div>
+                    <div class="card-box">
+                        <span>${data.demonyms.eng.f}</span>
+                        <p><strong>Demonym</strong></p>
+                    </div>
+                </div>
+            </div>
+            `;
+
+            container.insertAdjacentHTML('afterbegin', htmlData);
+        });
+
+    </script>
+
+</body>
+
+</html>
